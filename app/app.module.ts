@@ -18,6 +18,9 @@ import { SessionListComponent } from "./events/event-details/session-list.compon
 // MODELS
 import { IEvent } from "./events/shared/event.model";
 
+// PIPES
+import { DurationPipe } from "./events/shared/duration.pipe";
+
 // SERVICES
 import { AuthService } from "./events/user/auth.service";
 import { EventRouteActivatorService } from "./events/event-details/event-route-activator.service";
@@ -46,6 +49,7 @@ import { appRoutes } from "./routes";
         EventDetailsComponent,        
         NavBarComponent,   
         SessionListComponent,
+        DurationPipe,
     ],
     bootstrap: [EventsAppComponent],
     providers: [
