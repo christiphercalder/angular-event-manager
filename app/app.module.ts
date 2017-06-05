@@ -4,6 +4,7 @@ import { BrowserModule } from "@angular/platform-browser";
 import { RouterModule } from "@angular/router";
 
 // CUSTOM COMPONENTS
+import { CollapsibleWellComponent } from "./common/collapsible-well.component";
 import { CreateEventComponent } from "./events/create-event.component";
 import { CreateSessionComponent } from "./events/event-details/create-session.component";
 import { Error404Component } from "./errors/404.component";
@@ -35,6 +36,7 @@ import { appRoutes } from "./routes";
         RouterModule.forRoot(appRoutes)    
     ],
     declarations: [
+        CollapsibleWellComponent,
         CreateEventComponent,
         CreateSessionComponent,
         Error404Component,
