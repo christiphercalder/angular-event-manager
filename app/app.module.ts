@@ -4,7 +4,7 @@ import { BrowserModule } from "@angular/platform-browser";
 import { RouterModule } from "@angular/router";
 
 // CUSTOM COMPONENTS
-import { CollapsibleWellComponent } from "./common/collapsible-well.component";
+// import { CollapsibleWellComponent } from "./common/collapsible-well.component";
 import { CreateEventComponent } from "./events/create-event.component";
 import { CreateSessionComponent } from "./events/event-details/create-session.component";
 import { Error404Component } from "./errors/404.component";
@@ -26,10 +26,18 @@ import { AuthService } from "./events/user/auth.service";
 import { EventRouteActivatorService } from "./events/event-details/event-route-activator.service";
 import { EventsListResolverService } from "./events/events-list-resolver.service";
 import { EventService } from "./events/shared/event.service";
-import { ToastrService } from "./common/toastr.service";
+import { CollapsibleWellComponent, 
+         SimpleModalComponent,
+         ModalTriggerDirective,
+         JQ_TOKEN,
+         TOASTR_TOKEN, 
+         Toastr } from "./common/index";
 
 // ROUTES
 import { appRoutes } from "./routes";
+
+declare let toastr : Toastr;
+declare let jQuery : Object;
 
 @NgModule({
     imports: [
@@ -49,6 +57,8 @@ import { appRoutes } from "./routes";
         EventDetailsComponent,        
         NavBarComponent,   
         SessionListComponent,
+        SimpleModalComponent,
+        ModalTriggerDirective,
         DurationPipe,
     ],
     bootstrap: [EventsAppComponent],
@@ -57,11 +67,9 @@ import { appRoutes } from "./routes";
         EventRouteActivatorService, 
         EventsListResolverService,
         EventService, 
-        ToastrService,
-        {
-            provide: 'canDeactivateCreateEvent',
-            useValue: checkDirtyState
-        }
+        { provide: TOASTR_TOKEN, useValue: toastr },
+        { provide: JQ_TOKEN, useValue: jQuery },
+        { provide: 'canDeactivateCreateEvent', useValue: checkDirtyState },
     ],
 })
 // Main Application Module

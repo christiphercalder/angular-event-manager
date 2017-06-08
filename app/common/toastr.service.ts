@@ -1,26 +1,11 @@
-import { Injectable } from '@angular/core';
+import { OpaqueToken } from '@angular/core';
 
-// Lets typescript know that this is a type that is valid, and is found globally
-declare let toastr:any;
+export let TOASTR_TOKEN = new OpaqueToken('toastr');
 
-@Injectable()
-export class ToastrService {
 
-    constructor() { }
-
-    success(message: string, title?: string){
-        toastr.success(message, title);
-    }
-
-    info(message: string, title?: string){
-        toastr.info(message, title);
-    }
-
-    error(message: string, title?: string){
-        toastr.error(message, title);
-    }
-
-    warning(message: string, title?: string){
-        toastr.warning(message, title);
-    }
+export interface Toastr {
+    success (msg: string, title?: string): void;
+    info (msg: string, title?: string): void;
+    warning (msg: string, title?: string): void;
+    error (msg: string, title?: string): void;
 }

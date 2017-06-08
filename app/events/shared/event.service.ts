@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Observable, Subject } from "rxjs/RX";
 
-import { IEvent } from "./event.model";
+import { IEvent, ISession } from "./event.model";
 
 @Injectable()
 export class EventService {
@@ -29,6 +29,35 @@ export class EventService {
       event.id = 999;
       event.session = [];
       EVENTS.push(event);    
+    }
+
+    /**
+     * Find any sessions that have tot do with the keyword passed
+     * @param searchTerm - the keyword used to search
+     */
+    searchSessions(searchTerm: string){
+      var term = searchTerm.toLocaleLowerCase();
+      var results: ISession[] = [];
+
+      EVENTS.forEach(event => {
+        // search for matching sessions
+        var matchingSessions = event.sessions.filter(
+          session => session.name.toLocaleLowerCase().indexOf(term) > -1);
+        // add property eventId to the session as a reference        
+        matchingSessions = matchingSessions.map((session:any) => {
+          session.eventId = event.id;
+          return session;
+        })
+        results = results.concat(matchingSessions);
+      })
+      
+      var emitter = new EventEmitter(true);
+      // simulate http request
+      setTimeout(() => {
+        emitter.emit(results);
+      }, 100);
+      // return observable
+      return emitter;
     }
 
     updateEvent(event){
