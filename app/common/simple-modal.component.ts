@@ -14,6 +14,7 @@ import { JQ_TOKEN } from "./jQuery.service";
 export class SimpleModalComponent implements OnInit {
     @Input() title: string;
     @Input() elementId: string;
+    @Input() closeOnBodyClick: string;
     // Using the ViewChild method gives you the ability to easily access a DOM 
     // element by attaching a variable ref on the element 
     @ViewChild('modalcontainer') containerEl: ElementRef;
@@ -21,7 +22,10 @@ export class SimpleModalComponent implements OnInit {
     constructor(@Inject(JQ_TOKEN) private $: any) { }
     ngOnInit() { }
 
-    closeModal(){        
-        this.$(this.containerEl.nativeElement).modal('hide');
+    closeModal(){    
+        if(this.closeOnBodyClick.toLocaleLowerCase() === "true"){
+            this.$(this.containerEl.nativeElement).modal('hide');
+        }
+        
     }
 }

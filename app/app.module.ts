@@ -1,10 +1,18 @@
+// ANGULAR MODULES
 import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { RouterModule } from "@angular/router";
 
+// COMMON FOLDER INDEX
+import { CollapsibleWellComponent, 
+         SimpleModalComponent,
+         ModalTriggerDirective,
+         JQ_TOKEN,
+         TOASTR_TOKEN, 
+         Toastr } from "./common/index";
+
 // CUSTOM COMPONENTS
-// import { CollapsibleWellComponent } from "./common/collapsible-well.component";
 import { CreateEventComponent } from "./events/create-event.component";
 import { CreateSessionComponent } from "./events/event-details/create-session.component";
 import { Error404Component } from "./errors/404.component";
@@ -14,6 +22,7 @@ import { EventThumbnailComponent } from "./events/event-thumbnail.component";
 import { EventDetailsComponent } from "./events/event-details/event-details.component";
 import { NavBarComponent } from "./nav/navbar.component";
 import { SessionListComponent } from "./events/event-details/session-list.component";
+import { UpvoteComponent } from "./events/event-details/upvote.component";
 
 // MODELS
 import { IEvent } from "./events/shared/event.model";
@@ -26,12 +35,8 @@ import { AuthService } from "./events/user/auth.service";
 import { EventRouteActivatorService } from "./events/event-details/event-route-activator.service";
 import { EventsListResolverService } from "./events/events-list-resolver.service";
 import { EventService } from "./events/shared/event.service";
-import { CollapsibleWellComponent, 
-         SimpleModalComponent,
-         ModalTriggerDirective,
-         JQ_TOKEN,
-         TOASTR_TOKEN, 
-         Toastr } from "./common/index";
+import { VoterService } from "./events/event-details/voter.service";
+
 
 // ROUTES
 import { appRoutes } from "./routes";
@@ -58,6 +63,7 @@ declare let jQuery : Object;
         NavBarComponent,   
         SessionListComponent,
         SimpleModalComponent,
+        UpvoteComponent,
         ModalTriggerDirective,
         DurationPipe,
     ],
@@ -70,6 +76,7 @@ declare let jQuery : Object;
         { provide: TOASTR_TOKEN, useValue: toastr },
         { provide: JQ_TOKEN, useValue: jQuery },
         { provide: 'canDeactivateCreateEvent', useValue: checkDirtyState },
+        VoterService,
     ],
 })
 // Main Application Module
