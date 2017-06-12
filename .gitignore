@@ -4,4 +4,7 @@ typings
 /app/**/*.map
 .vscode/
 
+# Ignore for MAC 
+.DS_Store
+
 
