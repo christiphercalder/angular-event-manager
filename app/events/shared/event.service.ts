@@ -1,4 +1,5 @@
 import { Injectable, EventEmitter } from '@angular/core';
+import { Http } from '@angular/http';
 import { Observable, Subject } from "rxjs/RX";
 
 import { IEvent, ISession } from "./event.model";
@@ -6,8 +7,10 @@ import { IEvent, ISession } from "./event.model";
 @Injectable()
 export class EventService {
 
-    constructor() { }
-
+    constructor(private http: Http) { }
+    /**
+     * 
+     */
     getEvents():Observable<IEvent[]>{
         let subject = new Subject<IEvent[]>();
         // timeout to simulate a synchronous call to fetch data
@@ -21,10 +24,18 @@ export class EventService {
         return subject;
     }
 
+    /**
+     * 
+     * @param id 
+     */
     getEvent(id:number):IEvent{
       return EVENTS.find(event => event.id === id);
     }
 
+    /**
+     * 
+     * @param event : the event to be saved
+     */
     saveEvent(event){
       event.id = 999;
       event.session = [];
@@ -60,6 +71,10 @@ export class EventService {
       return emitter;
     }
 
+    /**
+     * 
+     * @param event 
+     */
     updateEvent(event){
       let index = EVENTS.findIndex(x => x.id = event.id);
       EVENTS[index] = event;

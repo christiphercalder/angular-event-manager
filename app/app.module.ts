@@ -1,6 +1,7 @@
 // ANGULAR MODULES
 import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { HttpModule } from "@angular/http";
 import { BrowserModule } from "@angular/platform-browser";
 import { RouterModule } from "@angular/router";
 
@@ -23,6 +24,7 @@ import { EventDetailsComponent } from "./events/event-details/event-details.comp
 import { NavBarComponent } from "./nav/navbar.component";
 import { SessionListComponent } from "./events/event-details/session-list.component";
 import { UpvoteComponent } from "./events/event-details/upvote.component";
+import { LocationValidator } from "./events/location-validator.directive";
 
 // MODELS
 import { IEvent } from "./events/shared/event.model";
@@ -48,6 +50,7 @@ declare let jQuery : Object;
     imports: [
         BrowserModule,
         FormsModule,
+        HttpModule,
         ReactiveFormsModule,
         RouterModule.forRoot(appRoutes)    
     ],
@@ -66,6 +69,7 @@ declare let jQuery : Object;
         UpvoteComponent,
         ModalTriggerDirective,
         DurationPipe,
+        LocationValidator,
     ],
     bootstrap: [EventsAppComponent],
     providers: [
