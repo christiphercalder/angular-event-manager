@@ -34,8 +34,8 @@ import { DurationPipe } from "./events/shared/duration.pipe";
 
 // SERVICES
 import { AuthService } from "./events/user/auth.service";
-import { EventRouteActivatorService } from "./events/event-details/event-route-activator.service";
 import { EventsListResolverService } from "./events/events-list-resolver.service";
+import { EventResolver } from "./events/event-resolver.service";
 import { EventService } from "./events/shared/event.service";
 import { VoterService } from "./events/event-details/voter.service";
 
@@ -74,7 +74,7 @@ declare let jQuery : Object;
     bootstrap: [EventsAppComponent],
     providers: [
         AuthService,
-        EventRouteActivatorService, 
+        EventResolver,
         EventsListResolverService,
         EventService, 
         { provide: TOASTR_TOKEN, useValue: toastr },

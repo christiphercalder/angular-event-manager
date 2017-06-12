@@ -8,9 +8,9 @@ export class EventsListResolverService implements Resolve<any> {
     constructor(private eventService: EventService) { }
 
     /**
-     * uses the map function isntead of subscribe so that it will pass the observable itself instead of the data
+     * 
      */
     resolve(){
-        return this.eventService.getEvents().map(events => events);
+        return this.eventService.getEvents();
     }
 }

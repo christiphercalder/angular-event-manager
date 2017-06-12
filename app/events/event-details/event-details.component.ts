@@ -28,12 +28,12 @@ export class EventDetailsComponent implements OnInit {
 
         // Subscribe to the params observable to make angular aware of any changes 
         // in the routing url within a component         
-        this.route.params.forEach((params: Params) => {
-            this.event = this.eventService.getEvent(+params['id']);
-            // Reset the state of addMode to false so that 
-            // create session is hidden when navigating away  
-            this.addMode = false;
-        })        
+        this.route.data.forEach((data) => {
+                this.event = data['event'];
+                // Reset the state of addMode to false so that 
+                // create session is hidden when navigating away  
+                this.addMode = false;
+        }) ;       
 
         // CODE before subscribing to the params observable, 
         // doesnt work when navigating within the event details component to itself.
@@ -53,6 +53,7 @@ export class EventDetailsComponent implements OnInit {
         session.id = nextId + 1;
         // add the new session to the end of the event sessions array
         this.event.sessions.push(session);
+        this.eventService.saveEvent(this.event).subscribe();
         // return to the sessions list
         this.addMode = false;
     }

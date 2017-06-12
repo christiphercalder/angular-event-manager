@@ -1,5 +1,5 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http , Response, Headers, RequestOptions} from '@angular/http';
 import { Observable, Subject } from "rxjs/RX";
 
 import { IEvent, ISession } from "./event.model";
@@ -12,34 +12,48 @@ export class EventService {
      * 
      */
     getEvents():Observable<IEvent[]>{
-        let subject = new Subject<IEvent[]>();
-        // timeout to simulate a synchronous call to fetch data
-        setTimeout(
-          () => {
-            subject.next(EVENTS); 
-            subject.complete(); 
-          }, 100
-        );
+      // There is a built in server that is not shown, this ref points to it
+      return this.http.get("/api/events").map((response: Response) => {
+        return <IEvent[]>response.json();
+      }).catch(this.handleError);
+      
+        // OLD CODE
+        // let subject = new Subject<IEvent[]>();
+        // // timeout to simulate a synchronous call to fetch data
+        // setTimeout(
+        //   () => {
+        //     subject.next(EVENTS); 
+        //     subject.complete(); 
+        //   }, 100
+        // );
         
-        return subject;
+        // return subject;
     }
+    
 
     /**
-     * 
-     * @param id 
+     * Returns information for a requested event in JSON format
+     * @param id : the id for the event requested
      */
-    getEvent(id:number):IEvent{
-      return EVENTS.find(event => event.id === id);
+    getEvent(id:number):Observable<IEvent>{
+      return this.http.get("/api/events/" + id).map((response: Response) => {
+        return <IEvent>response.json();
+      }).catch(this.handleError);
+      // return EVENTS.find(event => event.id === id);
     }
 
     /**
-     * 
+     * Saves an event, can also update the event if the API is aware that if it exists to update instead
      * @param event : the event to be saved
      */
-    saveEvent(event){
-      event.id = 999;
-      event.session = [];
-      EVENTS.push(event);    
+    saveEvent(event): Observable<IEvent>{
+      let headers = new Headers({ 'Content-Type': 'application/json'});
+      let options = new RequestOptions({headers: headers});
+
+      return this.http.post('/api/events', JSON.stringify(event), options).map((response: Response) => {
+        return response.json();
+      }).catch(this.handleError);
+
     }
 
     /**
@@ -47,39 +61,19 @@ export class EventService {
      * @param searchTerm - the keyword used to search
      */
     searchSessions(searchTerm: string){
-      var term = searchTerm.toLocaleLowerCase();
-      var results: ISession[] = [];
-
-      EVENTS.forEach(event => {
-        // search for matching sessions
-        var matchingSessions = event.sessions.filter(
-          session => session.name.toLocaleLowerCase().indexOf(term) > -1);
-        // add property eventId to the session as a reference        
-        matchingSessions = matchingSessions.map((session:any) => {
-          session.eventId = event.id;
-          return session;
-        })
-        results = results.concat(matchingSessions);
-      })
-      
-      var emitter = new EventEmitter(true);
-      // simulate http request
-      setTimeout(() => {
-        emitter.emit(results);
-      }, 100);
-      // return observable
-      return emitter;
+      // There is a built in server that is not shown, this ref points to it
+      return this.http.get("/api/sessions/search?search=" + searchTerm).map((response: Response) => {
+        return response.json();
+      }).catch(this.handleError);
     }
 
     /**
-     * 
-     * @param event 
+     * Cleans up the data returned by the error response for consumption
+     * @param error the response object returned by the server
      */
-    updateEvent(event){
-      let index = EVENTS.findIndex(x => x.id = event.id);
-      EVENTS[index] = event;
+    private handleError(error: Response){
+      return Observable.throw(error.statusText);
     }
-
 }
 
  const EVENTS:IEvent[] = [
