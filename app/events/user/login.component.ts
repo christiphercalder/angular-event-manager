@@ -11,17 +11,25 @@ import { AuthService } from "./auth.service";
 })
 
 export class LoginComponent implements OnInit {
-    constructor(private auth: AuthService, private router:Router) { }
+    loginInvalid: boolean = false;
+
+    constructor(private auth: AuthService, private router: Router) { }
 
     ngOnInit() { }
 
-    login(formValues){
+    login(formValues) {
         // console.log(formValues);
-        this.auth.loginUser(formValues.userName, formValues.password);
-        this.router.navigate(['events']);
+        this.auth.loginUser(formValues.userName, formValues.password).subscribe(resp => {
+            if (!resp) {
+                this.loginInvalid = true;
+            } else {
+                this.router.navigate(['events']);
+            }
+        });
+
     }
 
-    cancel(){
+    cancel() {
         this.router.navigate(['events']);
     }
 }
