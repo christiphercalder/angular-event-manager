@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "@types/core-js": "0.9.34",
-    "@types/jasmine": "^2.5.38",
+    
     "@types/node": "6.0.46",
     "concurrently": "3.2.0",
     "typescript": "2.1.1"
