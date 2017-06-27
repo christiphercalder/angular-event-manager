@@ -1,5 +1,11 @@
 // Karma configuration
-
+/**
+ * NOTE FOR KARMA TO WORK PROPERLY
+ * - If you are hiding your compiled javascript files in your editor, they will not be deleted
+ * - so you have to manually remove those for Karma to pick up on the tests. Also, the 
+ * - typescript compiler must be running so run karma from a new console while tsc is running
+ * - in another.
+ */
 module.exports = function(config) {
     var appBase    = 'app/';       // transpiled app JS and map files
     var appSrcBase = 'app/';       // app source TS files
